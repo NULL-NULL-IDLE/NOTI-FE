@@ -1,55 +1,36 @@
 import { useState, useEffect } from "react";
-import { BrowserRouter as Routes, Route, useNavigate } from "react-router-dom";
+import { Router, Routes, Route, useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 import { selectedUnivState } from "./recoil/atom";
 import { createGlobalStyle } from "styled-components";
 import SplashScreen from "./components/SplashScreen";
 import MainPage from "./pages/MainPage";
+import ChatBot from "./pages/ChatBot";
 
 function App() {
   const [selectedUniv, setSelectedUniv] = useRecoilState(selectedUnivState); // Recoil 상태 가져오기 및 업데이트
   const navigate = useNavigate();
 
   useEffect(() => {
-    // 페이지 로드 시 로컬 스토리지를 확인하여 상태 설정
     const storedUniv = localStorage.getItem("selectedUniv");
-    if (storedUniv) {
+    if (storedUniv && !selectedUniv) {
       setSelectedUniv(storedUniv); // Recoil 상태 업데이트
       navigate("/main"); // Main 페이지로 이동
-    } else {
-      navigate("/"); // SplashScreen으로 이동
     }
-  }, [setSelectedUniv, navigate]);
+  }, [selectedUniv, setSelectedUniv, navigate]); // selectedUniv가 없을 때만 실행
 
   return (
     <>
       <GlobalStyle />
       <Routes>
-        {selectedUniv ? (
-          <Route path="/main" element={<MainPage />} />
-        ) : (
-          <Route path="/" element={<SplashScreen />} />
-        )}
+        <Route path="/" element={<SplashScreen />} />
+        <Route path="/main" element={<MainPage />} />
+
+        <Route path="/chatbot" element={<ChatBot />} />
       </Routes>
     </>
   );
 }
-
-// Routes를 분리하여 Recoil 상태를 안전하게 사용
-// function AppRoutes() {
-//   const selectedUniv = useRecoilValue(selectedUnivState); // Recoil 상태 가져오기
-//   console.log(selectedUniv);
-
-//   return (
-//     <Routes>
-//       {selectedUniv ? (
-//         <Route path="/main" element={<Main />} />
-//       ) : (
-//         <Route path="/" element={<SplashScreen />} />
-//       )}
-//     </Routes>
-//   );
-// }
 
 export default App;
 
