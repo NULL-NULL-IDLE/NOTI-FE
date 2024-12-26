@@ -1,7 +1,14 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { selectedUnivState } from "../recoil/atom";
+import { useRecoilValue, useSetRecoilState } from "recoil";
+import {
+  pageState,
+  semesterState,
+  departmentState,
+  studentIDState,
+  categoryState,
+  selectedUnivState,
+} from "../recoil/atom";
 import * as S from "../style/MainStyle";
 import Header from "../components/Header";
 
@@ -9,13 +16,20 @@ import Header from "../components/Header";
 
 function MainPage() {
   const navigate = useNavigate();
-  const selectedUniv = useRecoilValue(selectedUnivState); // Recoil 상태 가져오기
 
-  const [page, setPage] = useState("");
-  const [semester, setSemester] = useState("");
-  const [department, setDepartment] = useState("");
-  const [studentID, setStudentID] = useState("");
-  const [category, setCategory] = useState("");
+  const selectedUniv = useRecoilValue(selectedUnivState); // Recoil 상태 가져오기
+  const page = useRecoilValue(pageState);
+  const semester = useRecoilValue(semesterState);
+  const department = useRecoilValue(departmentState);
+  const studentID = useRecoilValue(studentIDState);
+  const category = useRecoilValue(categoryState);
+
+  const setPage = useSetRecoilState(pageState);
+  const setSemester = useSetRecoilState(semesterState);
+  const setDepartment = useSetRecoilState(departmentState);
+  const setStudentID = useSetRecoilState(studentIDState);
+  const setCategory = useSetRecoilState(categoryState);
+
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
 

@@ -1,11 +1,17 @@
 import styled from "styled-components";
 import * as token from "../../designToken";
+import { useNavigate } from "react-router-dom";
+import { selectedUnivState } from "../recoil/atom";
+import { useRecoilValue } from "recoil";
 
-function Header({ selectedUniv }) {
+function Header() {
+  const selectedUniv = useRecoilValue(selectedUnivState); // Recoil 상태 가져오기
+  const navigate = useNavigate();
+
   return (
     <Container>
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <Logo src="/Noti.svg" alt="로고" />
+        <Logo src="/Noti.svg" alt="로고" onClick={() => navigate("/main")} />
         <Title>노티</Title>
       </div>
       <School>{selectedUniv}</School>

@@ -1,5 +1,11 @@
+import Header from "../components/Header";
+
 function ChatBot() {
-  return <div>sdf</div>;
+  return (
+    <>
+      <Header />
+    </>
+  );
 }
 
 export default ChatBot;
