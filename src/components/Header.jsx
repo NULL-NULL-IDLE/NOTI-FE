@@ -1,5 +1,4 @@
-import styled from "styled-components";
-import * as token from "../../designToken";
+import * as S from "../style/HeaderStyle";
 import { useNavigate } from "react-router-dom";
 import { selectedUnivState } from "../recoil/atom";
 import { useRecoilValue } from "recoil";
@@ -9,36 +8,17 @@ function Header() {
   const navigate = useNavigate();
 
   return (
-    <Container>
+    <S.Container>
       <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
-        <Logo src="/Noti.svg" alt="로고" onClick={() => navigate("/main")} />
-        <Title>노티</Title>
+        <S.Logo src="/Noti.svg" alt="로고" onClick={() => navigate("/main")} />
+        <S.Title>노티</S.Title>
       </div>
-      <School>{selectedUniv}</School>
-    </Container>
+      <div>
+        <S.School>{selectedUniv}</S.School>
+        <S.SchoolLogo src="" alt="학교 로고" />
+      </div>
+    </S.Container>
   );
 }
 
 export default Header;
-
-const Container = styled.div`
-  font-family: "Pretendard";
-  display: flex;
-  width: 100vw;
-  align-items: center;
-  padding: 0 12px;
-  background-color: ${token.colors.main};
-  justify-content: space-between;
-`;
-
-const Logo = styled.img`
-  width: 80px;
-`;
-
-const Title = styled.span`
-  color: white;
-`;
-const School = styled.span`
-  padding: 16px;
-  color: white;
-`;
