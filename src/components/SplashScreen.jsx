@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { selectedUnivState } from "../recoil/atom";
 import styled from "styled-components";
-import { createGlobalStyle } from "styled-components";
 import * as token from "../../designToken";
 
-function SplashScreen({ onSelectUniv }) {
+function SplashScreen() {
+  const navigate = useNavigate();
   const [univ, setUniv] = useState("");
+  const setSelectedUniv = useSetRecoilState(selectedUnivState); // 상태 업데이트 함수
 
   const handleSelect = () => {
     if (univ) {
-      onSelectUniv(univ);
+      setSelectedUniv(univ); // Recoil 상태 업데이트
+      localStorage.setItem("selectedUniv", univ); // 로컬 스토리지 업데이트
+      navigate("/main"); // Main 페이지로 이동
     } else {
       alert("대학을 선택해주세요.");
     }
   };
+
+  console.log(selectedUnivState);
 
   return (
     <Container>
@@ -23,7 +31,7 @@ function SplashScreen({ onSelectUniv }) {
         <option value="">학교 선택</option>
         <option value="세종대학교">세종대학교</option>
       </Select>
-      <Button onClick={handleSelect}>노티 받기</Button>
+      <Button onClick={() => handleSelect(univ)}>노티 받기</Button>
     </Container>
   );
 }
