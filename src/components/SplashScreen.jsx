@@ -1,14 +1,29 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { useSetRecoilState } from "recoil";
 import { selectedUnivState } from "../recoil/atom";
 import styled from "styled-components";
 import * as token from "../../designToken";
+import { getUniversity } from "../API/getUniversity";
 
 function SplashScreen() {
   const navigate = useNavigate();
+  const [univList, setUnivList] = useState([]);
   const [univ, setUniv] = useState("");
   const setSelectedUniv = useSetRecoilState(selectedUnivState); // 상태 업데이트 함수
+
+  useEffect(() => {
+    const fetchUnivList = async () => {
+      try {
+        const universities = await getUniversity();
+        setUnivList(universities);
+      } catch (e) {
+        console.error("대학 불러오기 실패:", e);
+      }
+    };
+    fetchUnivList();
+    console.log(univList);
+  }, []);
 
   const handleSelect = () => {
     if (univ) {
@@ -20,7 +35,7 @@ function SplashScreen() {
     }
   };
 
-  console.log(selectedUnivState);
+  console.log("선택된 대학", selectedUnivState);
 
   return (
     <Container>
@@ -30,7 +45,11 @@ function SplashScreen() {
       <div style={{ display: "flex", justifyContent: "center" }}>
         <Select onChange={(e) => setUniv(e.target.value)}>
           <option value="">학교 선택</option>
-          <option value="세종대학교">세종대학교</option>
+          {univList.map((university) => (
+            <option key={university.id} value={university.name}>
+              {university.name}
+            </option>
+          ))}
         </Select>
         <Button onClick={() => handleSelect(univ)}>노티 받기</Button>
       </div>
