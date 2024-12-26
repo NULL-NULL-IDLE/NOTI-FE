@@ -100,14 +100,12 @@ function MainPage() {
           {/* 학기 */}
           <S.Select onChange={(e) => setSemester(e.target.value)}>
             <option value="">학기</option>
-            <option value="1-1">1-1</option>
-            <option value="1-2">1-2</option>
-            <option value="2-1">2-1</option>
-            <option value="2-2">2-2</option>
-            <option value="3-1">3-1</option>
-            <option value="3-1">3-2</option>
-            <option value="4-1">4-1</option>
-            <option value="4-2">4-2</option>
+            <option value="2025">2025학년도</option>
+            <option value="2024">2024학년도</option>
+            <option value="2023">2023학년도</option>
+            <option value="2022">2022학년도</option>
+            <option value="2021">2021학년도</option>
+            <option value="2020">2020학년도</option>
             <option value="other">그 이상</option>
           </S.Select>
 

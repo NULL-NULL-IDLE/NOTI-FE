@@ -6,6 +6,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100vw;
+  height: 10vh;
   align-items: center;
   margin-bottom: 60px;
   padding: 0 12px;
@@ -13,7 +14,8 @@ export const Container = styled.div`
 `;
 
 export const Logo = styled.img`
-  width: 80px;
+  width: 8vh;
+  height: 8vh;
 `;
 
 export const Title = styled.span`

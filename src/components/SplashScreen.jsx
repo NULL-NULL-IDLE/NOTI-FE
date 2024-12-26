@@ -27,11 +27,13 @@ function SplashScreen() {
       <Logo src="/Noti.svg" />
       <Title>NOTI</Title>
       <SubTitle>나만의 대학사전</SubTitle>
-      <Select onChange={(e) => setUniv(e.target.value)}>
-        <option value="">학교 선택</option>
-        <option value="세종대학교">세종대학교</option>
-      </Select>
-      <Button onClick={() => handleSelect(univ)}>노티 받기</Button>
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <Select onChange={(e) => setUniv(e.target.value)}>
+          <option value="">학교 선택</option>
+          <option value="세종대학교">세종대학교</option>
+        </Select>
+        <Button onClick={() => handleSelect(univ)}>노티 받기</Button>
+      </div>
     </Container>
   );
 }
@@ -49,23 +51,42 @@ const Container = styled.div`
 `;
 
 const Logo = styled.img`
+  /* width: 300px; */
   width: 300px;
+  height: 250px;
 `;
-const Title = styled.div``;
-const SubTitle = styled.div``;
+
+const Title = styled.div`
+  font-size: 44px;
+  font-weight: 600;
+  color: white;
+`;
+const SubTitle = styled.div`
+  margin: 12px 0;
+  font-size: 36px;
+  font-weight: 600;
+  color: white;
+`;
 
 const Select = styled.select`
+  height: 40px;
   padding: 10px;
-  margin-bottom: 20px;
-  font-size: 1rem;
+  border-radius: 8px;
+  font-size: 16px;
+  color: ${token.colors.fontColor};
 `;
 
 const Button = styled.button`
+  display: flex;
+  align-items: center;
+  height: 40px;
+  margin-left: 20px;
   padding: 10px 20px;
-  font-size: 1rem;
+  font-size: 16px;
+  font-weight: 600;
   background-color: white;
   color: ${token.colors.main};
   border: none;
-  border-radius: 5px;
+  border-radius: 8px;
   cursor: pointer;
 `;
