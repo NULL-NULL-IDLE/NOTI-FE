@@ -11,11 +11,13 @@ import {
 } from "../recoil/atom";
 import * as S from "../style/MainStyle";
 import Header from "../components/Header";
+import { getDepartment } from "../API/getDepartment";
 
 // TODO: 메인 페이지 말고 다른 페이지에서도 로컬 스토리지가 비어있을 경우 /으로 이동
 
 function MainPage() {
   const navigate = useNavigate();
+  const [departmentList, setDepartmentList] = useState([]);
 
   const selectedUniv = useRecoilValue(selectedUnivState); // Recoil 상태 가져오기
   const page = useRecoilValue(pageState);
@@ -45,6 +47,19 @@ function MainPage() {
     if (page == "ChatBot") navigate("/chatbot");
     else if (page == "FAQ") navigate("/main");
   }, [page]);
+
+  useEffect(() => {
+    const fetchDepartmentList = async () => {
+      try {
+        const departments = await getDepartment();
+        setDepartmentList(departments);
+      } catch (e) {
+        console.error("학과 불러오기 실패:", e);
+      }
+    };
+    fetchDepartmentList();
+    console.log(departmentList);
+  }, []);
 
   useEffect(() => {
     // 모든 값이 비어있지 않으면 검색 버튼 활성화
@@ -112,8 +127,11 @@ function MainPage() {
           {/* 학과 */}
           <S.Select onChange={(e) => setDepartment(e.target.value)}>
             <option value="">학과</option>
-            <option value="컴퓨터공학과">컴퓨터공학과</option>
-            <option value="호텔경영학과">호텔경영학과</option>
+            {departmentList.map((department) => (
+              <option key={department.id} value={department.name}>
+                {department.name}
+              </option>
+            ))}
           </S.Select>
 
           {/* 학번 */}
