@@ -32,6 +32,7 @@ function MainPage() {
 
   const [isSearchEnabled, setIsSearchEnabled] = useState(false);
   const [isSearchClicked, setIsSearchClicked] = useState(false);
+  const [expanded, setExpanded] = useState([]); // 드롭다운 상태 관리
 
   useEffect(() => {
     if (!selectedUniv) {
@@ -42,6 +43,7 @@ function MainPage() {
   useEffect(() => {
     console.log(page);
     if (page == "ChatBot") navigate("/chatbot");
+    else if (page == "FAQ") navigate("/main");
   }, [page]);
 
   useEffect(() => {
@@ -55,6 +57,34 @@ function MainPage() {
 
   const handleSearch = () => {
     setIsSearchClicked(true);
+  };
+
+  // 질문 (더미 데이터)
+  const questions = [
+    {
+      id: 1,
+      question: "우리학교의 졸업 요건이 어떻게 되나요?",
+      answer: "졸업 요건은 총 130학점입니다.",
+    },
+    {
+      id: 2,
+      question: "수강신청 기간은 언제인가요?",
+      answer: "수강신청은 매 학기 시작 전 공지됩니다.",
+    },
+    {
+      id: 3,
+      question: "졸업 프로젝트 제출은 언제인가요?",
+      answer: "졸업 프로젝트는 12월 말까지 제출해야 합니다.",
+    },
+    {
+      id: 4,
+      question: "학점 교류 신청은 어떻게 하나요?",
+      answer: "학점 교류는 교무처를 통해 신청할 수 있습니다.",
+    },
+  ];
+
+  const toggleDropdown = (id) => {
+    setExpanded((prev) => (prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]));
   };
 
   return (
@@ -112,7 +142,19 @@ function MainPage() {
             검색
           </S.Search>
         </div>
-        {isSearchClicked && <S.Content>검색 내용</S.Content>}
+        {isSearchClicked && (
+          <S.ContentContainer>
+            {questions.map((q) => (
+              <S.QuestionWrapper key={q.id}>
+                <S.Question onClick={() => toggleDropdown(q.id)}>
+                  {q.question}
+                  <S.Arrow expanded={expanded.includes(q.id)}>▼</S.Arrow>
+                </S.Question>
+                {expanded.includes(q.id) && <S.Answer>{q.answer}</S.Answer>}
+              </S.QuestionWrapper>
+            ))}
+          </S.ContentContainer>
+        )}
       </S.Container>
     </>
   );
